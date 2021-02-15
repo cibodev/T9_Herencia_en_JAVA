@@ -3,17 +3,15 @@ package Main;
  * 
  */
 
-
 import javax.swing.JOptionPane;
 
-import Models.Electrodomestico;
-import Models.Lavadora;
-import Models.Television;
+import Models.Serie;
+import Models.Videojuego;
 
 /**
  * @author Christian Rivas Pottier
  *
- * 9 feb. 2021
+ * 15 feb. 2021
  */
 public class mainApp {
 
@@ -21,39 +19,61 @@ public class mainApp {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Electrodomestico[] electrodomestico = new Electrodomestico[10];
+		Serie[] series=new Serie[5];
+		Videojuego[] videojuegos=new Videojuego[5];
 		
-		electrodomestico[0]= new Lavadora();
-		electrodomestico[1]= new Television();
-		electrodomestico[2]= new Electrodomestico(200, "Amarillo", 'G', 20);
-		electrodomestico[3]= new Electrodomestico();
-		electrodomestico[4]= new Electrodomestico(30, 100);
-		electrodomestico[5]= new Lavadora(40, 200);
-		electrodomestico[6]= new Lavadora(50);
-		electrodomestico[7]= new Television(50, 250);
-		electrodomestico[8]= new Television(40, true);
-		electrodomestico[9]= new Electrodomestico(200, "Rojo", 'F', 20);
+		series[0]=new Serie();
+		series[1]=new Serie("The Office", "Greg Daniels");
+		series[2]=new Serie("Breaking Bad", 5,"Drama Criminal", "Vince Gilligan");
+		series[3]=new Serie();
+		series[4]=new Serie();
+		videojuegos[0]= new Videojuego();
+		videojuegos[1]= new Videojuego("The Last of Us", 50);
+		videojuegos[2]= new Videojuego("VA-11 HALL-A", 20, "Novela Visual", "Sukeban Games");
+		videojuegos[3]= new Videojuego();
+		videojuegos[4]= new Videojuego();
 		
-		double precioFinalElectrodomesticos = 0;
-		double precioFinalTelevisiones= 0;
-		double precioFinalLavadoras= 0;
+		videojuegos[2].entregar();
+		series[1].entregar();
+		series[4].entregar();
+		videojuegos[1].entregar();
 		
-		for (int i = 0; i < electrodomestico.length; i++) {
-			if(electrodomestico[i] instanceof Electrodomestico) {
-				precioFinalElectrodomesticos+=electrodomestico[i].precioFinal();
+		int seriesEntregadas=0;
+		int videojuegosEntregados=0;
+		int videojuegoMasLargoint=0;
+		int serieMasLargaint=0;
+		String tituloVideojuegoMasLargo="";
+		String tituloSerieMasLarga="";
+		String infoSerie="";
+		String infoVideojuego="";
+		
+		for (int i = 0; i < videojuegos.length; i++) {
+			if(videojuegos[i].isEntregado()) {
+				videojuegosEntregados++;
+				videojuegos[i].devolver();
 			}
-			if(electrodomestico[i] instanceof Television) {
-				precioFinalTelevisiones+=electrodomestico[i].precioFinal();
+			if(videojuegos[i].compareTo(videojuegoMasLargoint)) {
+				videojuegoMasLargoint=videojuegos[i].gethEstimadas();
+				tituloVideojuegoMasLargo=videojuegos[i].getTitulo();
 			}
-			if(electrodomestico[i] instanceof Lavadora) {
-				precioFinalLavadoras+=electrodomestico[i].precioFinal();
+			infoVideojuego+=videojuegos[i].toString()+"\n";
+		}
+		for (int i = 0; i < series.length; i++) {
+			if(series[i].isEntregado()) {
+				seriesEntregadas++;
+				series[i].devolver();
 			}
+			if(series[i].compareTo(serieMasLargaint)) {
+				serieMasLargaint=series[i].getnTemporadas();
+				tituloSerieMasLarga=series[i].getTitulo();
+			}
+			infoSerie+=series[i].toString()+"\n";
 		}
 		
-		JOptionPane.showMessageDialog(null, "Los precios son los siguientes:"
-											+ "\nElectrodomesticos: "+precioFinalElectrodomesticos
-											+ "\nTelevisiones: "+precioFinalTelevisiones
-											+ "\nLavadora: "+precioFinalLavadoras);
+		JOptionPane.showMessageDialog(null, infoSerie+"Series entregadas: "+seriesEntregadas+"\nSerie mas larga: "+tituloSerieMasLarga+"\n-----------------------------------------------------------\n"
+											+ infoVideojuego+"Videojuegos entregados: "+videojuegosEntregados+"\nVideojuego mas largo: "+tituloVideojuegoMasLargo);
+		
 	}
 
+	
 }
